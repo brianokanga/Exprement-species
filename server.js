@@ -9,9 +9,6 @@ dotenv.config({
   path: './config.env'
 });
 
-// Body parser
-// app.use(express.json());
-
 // Remote database connection
 const DB = process.env.DATABASE.replace(
   '<PASSWORD>',
@@ -21,12 +18,22 @@ mongoose
   .connect(DB, {
     useNewUrlParser: true,
     useCreateIndex: true,
-    useFindAndModify: false
+    useFindAndModify: false,
+    useUnifiedTopology: true
   })
   .then(() => console.log('DB connection successful'))
   .catch(err => {
     console.log('ERROR', err);
   });
+
+  // Body parser
+app.use(express.json());
+
+// Enable cors
+app.use(cors());
+
+// Set static folder
+app.use(express.static(path.join(__dirname, './public')));
 
 
 const port = process.env.PORT || 3000;

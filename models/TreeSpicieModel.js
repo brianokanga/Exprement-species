@@ -49,12 +49,27 @@ const treeSpecieSchema = new mongoose.Schema(
     secetTreeSpecies: {
       type: Boolean,
       default: false
+    },
+    address: {
+      type: String,
+      required: true
+    },
+    location: {
+      type: {
+        type: String, // Don't do `{ location: { type: String } }`
+        enum: ['Point'], // 'location.type' must be 'Point'
+        required: true
+      },
+      coordinates: {
+        type: [Number],
+        index: '2dsphere'
+      }
     }
   }
 );
 
 
-// Tour model
+// Tree specie model
 const TreeSpecie = mongoose.model('TreeSpecie', treeSpecieSchema);
 
 module.exports = TreeSpecie;
